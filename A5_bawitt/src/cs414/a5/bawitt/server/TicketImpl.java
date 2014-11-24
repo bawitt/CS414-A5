@@ -12,6 +12,7 @@ public class TicketImpl extends java.rmi.server.UnicastRemoteObject implements T
 	private int id;
 	private DateTime enterDate;
 	private double ticketStandardRate;
+	private double ticketFlatRate;
 	private DateTime paymentDate;
 	private int duration;
 	
@@ -20,8 +21,9 @@ public class TicketImpl extends java.rmi.server.UnicastRemoteObject implements T
 		enterDate = new DateTime();
 		ticketStandardRate = r.getStandardRate();
 	}
-	public TicketImpl() throws java.rmi.RemoteException{
+	public TicketImpl(Rate r) throws java.rmi.RemoteException{
 		id = -1;
+		ticketFlatRate = r.getFlatRate();
 	}
 	//hours from entry until current time
 	/* (non-Javadoc)
@@ -66,6 +68,7 @@ public class TicketImpl extends java.rmi.server.UnicastRemoteObject implements T
 	 */
 	@Override
 	public double getAmountDue() throws java.rmi.RemoteException{
+		if(id==-1) return ticketFlatRate;
 		duration = getDurationHours();
 		return (duration * getTicketStandardRate());
 	}

@@ -82,9 +82,9 @@ public class ExitUI {
 		
 		JButton submitCreditBtn = new JButton("Submit ePay");
 		cardPnl.add(cardDueLbl);
-		cardPnl.add(new JLabel("Credit Card #: "));
+		cardPnl.add(new JLabel("Credit Card # (16 digits no dashes): "));
 		cardPnl.add(ccNumTxt);
-		cardPnl.add(new JLabel("Exp Date: "));
+		cardPnl.add(new JLabel("Exp Date (MM/yyy): "));
 		cardPnl.add(expDateTxt);
 		cardPnl.add(submitCreditBtn);
 		cardPnl.add(backBtn1);

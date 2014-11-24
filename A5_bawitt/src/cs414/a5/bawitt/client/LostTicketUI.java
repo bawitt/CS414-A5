@@ -40,7 +40,7 @@ public class LostTicketUI {
 		mainContentPnl.add(addressTxt);
 		mainContentPnl.add(new JLabel("Phone: "));
 		mainContentPnl.add(phoneTxt);
-		mainContentPnl.add(new JLabel("Ticket ID: "));
+		mainContentPnl.add(new JLabel("Ticket ID (0 for lost ticket): "));
 		mainContentPnl.add(ticketIDTxt);
 		mainContentPnl.add(submitBtn);
 		mainContentPnl.add(mainMenuBtn);
@@ -70,15 +70,20 @@ public class LostTicketUI {
 				name = nameTxt.getText();
 				address = addressTxt.getText();
 				phone= phoneTxt.getText();
-				ticketID = Integer.parseInt(ticketIDTxt.getText());
-					if (controller.isTicketValid(ticketID)) {
-						controller.exitWithoutTicket(name, address, phone, ticketID);
+				try{
+					ticketID = Integer.parseInt(ticketIDTxt.getText());
+					if (controller.isTicketValid(ticketID) || ticketID==0) {
+						controller.exitWithoutPayment(name, address, phone, ticketID);
 						repaintUI();
-						mainUI.adminUI.mainContentPnl.setVisible(true);
+						mainUI.mainContentPnl.setVisible(true);
 						mainContentPnl.setVisible(false);
+						mainUI.updateStatus();
 					} else {
 						JOptionPane.showMessageDialog(mainUI, "Invalid ticket number.", "Error", JOptionPane.ERROR_MESSAGE);
 					}
+				}catch (NumberFormatException e1){
+					JOptionPane.showMessageDialog(mainUI, "Invalid ticket number format.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			} 
 			if (e.getActionCommand().equals("Main Menu")) {
 				repaintUI();

@@ -36,7 +36,8 @@ public class TicketTest {
 	}
 	@Test
 	public void testTicketNull()  throws RemoteException{
-		Ticket tn = new TicketImpl();
+		Rate r = new RateImpl(4,100);
+		Ticket tn = new TicketImpl(r);
 		assertTrue(tn.getID()==-1);
 	}
 	@Test

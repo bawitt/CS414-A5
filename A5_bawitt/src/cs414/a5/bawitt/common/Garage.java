@@ -46,7 +46,7 @@ public interface Garage extends java.rmi.Remote{
 
 	Set<TicketImpl> getActiveTicketList() throws java.rmi.RemoteException;;
 
-	void showUnpaidTickets() throws java.rmi.RemoteException;;
+	String showUnpaidTickets() throws java.rmi.RemoteException;;
 
 	Set<TicketImpl> getPaidTicketList() throws java.rmi.RemoteException;;
 

@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import cs414.a5.bawitt.common.Controller;
@@ -50,11 +51,8 @@ public class ReportsUI {
 			try{
 			if (e.getActionCommand().equals("Unpaid Tickets")) {
 				repaintUI();
-				mainUI.changeRateUI.mainContentPnl.setVisible(true);
-				mainContentPnl.setVisible(false);
-				
-				mainUI.changeRateUI.parkingRateHourlyLbl.setText("Hourly Rate: $" + controller.getGarage().getGarageRate().getStandardRate());
-				mainUI.changeRateUI.parkingRateFlatLbl.setText("Lost Ticket Rate: $" + controller.getGarage().getGarageRate().getFlatRate());
+				String utString = controller.getGarage().showUnpaidTickets();
+				JOptionPane.showMessageDialog(mainUI, utString, "Unpaid Tickets", JOptionPane.INFORMATION_MESSAGE);
 			}		
 			if (e.getActionCommand().equals("Back")) {
 				mainUI.adminUI.mainContentPnl.setVisible(true);

@@ -226,7 +226,7 @@ implements Controller {
 		Ticket t = garage.getTicketFromList(tid);
 		return t.getAmountDue();
 	}
-	public void exitWithoutTicket(String n, String a, String p, int tid) throws java.rmi.RemoteException{
+	public void exitWithoutPayment(String n, String a, String p, int tid) throws java.rmi.RemoteException{
 		Ticket t = garage.getTicketFromList(tid);
 		UnpaidTicketImpl up = new UnpaidTicketImpl(n, a, p, t);
 		garage.addUnpaidTicketToList(up); 

@@ -32,7 +32,7 @@ public interface Controller extends java.rmi.Remote{
 	
 	double getAmountDueByID(int tid) throws java.rmi.RemoteException;
 	
-	void exitWithoutTicket(String n, String a, String p, int tid) throws java.rmi.RemoteException;
+	void exitWithoutPayment(String n, String a, String p, int tid) throws java.rmi.RemoteException;
 	
 	String makeCashPayment(int tid, double amount) throws java.rmi.RemoteException;
 	

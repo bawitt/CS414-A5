@@ -102,7 +102,7 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 				return ticket;
 			}
 		}
-		TicketImpl ticket= new TicketImpl();
+		TicketImpl ticket= new TicketImpl(garageRate);
 		return ticket;
 	}
 	/* (non-Javadoc)
@@ -204,10 +204,13 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 	 * @see a4.application.GarageImpl#showUnpaidTickets()
 	 */
 	@Override
-	public void showUnpaidTickets() throws java.rmi.RemoteException{
+	public String showUnpaidTickets() throws java.rmi.RemoteException{
+		String utString = "Unpaid List:";
 		for(UnpaidTicket ut : unpaidTickets){
-			System.out.println(ut.unpaidToString());
+			utString += ut.unpaidToString();
+			//System.out.println(ut.unpaidToString());
 		}
+		return utString;
 	}
 	/* (non-Javadoc)
 	 * @see a4.application.GarageImpl#getPaidTicketList()
