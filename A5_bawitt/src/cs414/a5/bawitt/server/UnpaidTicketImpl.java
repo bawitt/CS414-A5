@@ -2,12 +2,12 @@ package cs414.a5.bawitt.server;
 
 import java.rmi.RemoteException;
 import java.text.DecimalFormat;
-
 import cs414.a5.bawitt.common.Ticket;
 import cs414.a5.bawitt.common.UnpaidTicket;
 
-
 public class UnpaidTicketImpl extends java.rmi.server.UnicastRemoteObject implements UnpaidTicket {
+
+	private static final long serialVersionUID = 1L;
 	private String custName;
 	private String custAddress;
 	private String custPhone;
@@ -24,9 +24,7 @@ public class UnpaidTicketImpl extends java.rmi.server.UnicastRemoteObject implem
 		if(unpaidTicket.getID()==-1) ticketID = "N/A";
 		else ticketID = Integer.toString(unpaidTicket.getID());
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.UnpaidTicketsImpl#toString()
-	 */
+
 	@Override
 	public String unpaidToString() throws java.rmi.RemoteException{
 		try {

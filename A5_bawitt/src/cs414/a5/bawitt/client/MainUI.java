@@ -34,7 +34,7 @@ public class MainUI extends JFrame {
 
 	public MainUI(Controller controller) {
 		this.controller = controller;
-		paintUIs();
+		paintAllUIs();
 	}
 
 	public static MainUI getInstance(Controller controller) {
@@ -44,7 +44,7 @@ public class MainUI extends JFrame {
 		return instance;
 	}
 
-	private void paintUIs() {
+	private void paintAllUIs() {
 		enterUI = new EnterUI(this, controller);
 		exitUI = new ExitUI(this, controller);
 		lostTicketUI = new LostTicketUI(this, controller);

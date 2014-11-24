@@ -29,7 +29,6 @@ public class SpaceStatusUI {
 		try {
 		usedLbl = new JLabel("Used Spaces: " + controller.getGarage().getUsedSpaces());
 		totalLbl = new JLabel("Total Spaces: " + controller.getGarage().getTotalSpaces());
-
 		spacesPnl.add(usedLbl);
 		spacesPnl.add(totalLbl);
 		spacesPnl.add(mainMenuBtn);

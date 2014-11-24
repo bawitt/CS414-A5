@@ -134,7 +134,7 @@ public class AdminUI {
 						JOptionPane.showMessageDialog(mainUI, "Account added.", "Message", JOptionPane.INFORMATION_MESSAGE);
 						repaintUI();
 					} 
-					else JOptionPane.showMessageDialog(mainUI, "Username exists.", "Error", JOptionPane.ERROR_MESSAGE);	
+					else JOptionPane.showMessageDialog(mainUI, "Username already exists.", "Error", JOptionPane.ERROR_MESSAGE);	
 				}
 				else JOptionPane.showMessageDialog(mainUI, "Invalid username/password format.", "Error", JOptionPane.ERROR_MESSAGE);
 			}

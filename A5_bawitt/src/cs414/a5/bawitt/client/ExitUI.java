@@ -22,7 +22,7 @@ public class ExitUI {
 	JPanel mainContentPnl = new JPanel(new GridBagLayout());
 	private JTextField ticketTxt = new JTextField(10);
 	private JPanel exitPnl = new JPanel(new GridLayout(5,1));
-	private JPanel paymentChoicePnl = new JPanel(new GridLayout(4,1));
+	private JPanel paymentChoicePnl = new JPanel(new GridLayout(5,1));
 	private JPanel cashPnl = new JPanel(new GridLayout(5,1));
 	private JPanel cardPnl = new JPanel(new GridLayout(7,1));
 	private JLabel totalPaymentLbl = new JLabel("");
@@ -61,12 +61,15 @@ public class ExitUI {
 		JLabel paymentChoiceLbl = new JLabel("Select Payment Type:");
 		JButton cpBtn = new JButton("Cash");
 		JButton epBtn = new JButton("Electronic");
+		JButton backBtn2 = new JButton("Back");
 		paymentChoicePnl.add(totalPaymentLbl);
 		paymentChoicePnl.add(paymentChoiceLbl);
 		paymentChoicePnl.add(cpBtn);
 		paymentChoicePnl.add(epBtn);
+		paymentChoicePnl.add(backBtn2);
 		cpBtn.addActionListener(new ExitUIListener());
 		epBtn.addActionListener(new ExitUIListener());
+		backBtn2.addActionListener(new ExitUIListener());
 		paymentChoicePnl.setVisible(false);
 		
 		JButton submitCashBtn = new JButton("Submit Cash");
@@ -78,18 +81,18 @@ public class ExitUI {
 		submitCashBtn.addActionListener(new ExitUIListener());
 		cashPnl.setVisible(false);
 		backBtn.addActionListener(new ExitUIListener());
-		backBtn1.addActionListener(new ExitUIListener());
 		
 		JButton submitCreditBtn = new JButton("Submit ePay");
 		cardPnl.add(cardDueLbl);
-		cardPnl.add(new JLabel("Credit Card # (16 digits no dashes): "));
+		cardPnl.add(new JLabel("Credit Card # (16 digits no dashes):"));
 		cardPnl.add(ccNumTxt);
-		cardPnl.add(new JLabel("Exp Date (MM/yyy): "));
+		cardPnl.add(new JLabel("Exp Date (MM/yyy):"));
 		cardPnl.add(expDateTxt);
 		cardPnl.add(submitCreditBtn);
 		cardPnl.add(backBtn1);
 		cardPnl.setVisible(false);
 		submitCreditBtn.addActionListener(new ExitUIListener());
+		backBtn1.addActionListener(new ExitUIListener());
 
 		mainContentPnl.add(exitPnl);
 		mainContentPnl.add(paymentChoicePnl);
@@ -110,7 +113,6 @@ public class ExitUI {
 		cashPnl.setVisible(false);
 		cardPnl.setVisible(false);
 		paymentChoicePnl.setVisible(false);
-		homeBtn.setVisible(true);
 	}
 
 	private class ExitUIListener implements ActionListener {
@@ -142,9 +144,7 @@ public class ExitUI {
 						cardDueLbl.setText("Amount Due: " + amountDue);
 
 						exitPnl.setVisible(false);
-						paymentChoicePnl.setVisible(true);
-						homeBtn.setVisible(false);
-						backBtn.setVisible(true);					
+						paymentChoicePnl.setVisible(true);			
 					} else {
 						JOptionPane.showMessageDialog(mainUI, "Invalid ticket number.", "Error", JOptionPane.ERROR_MESSAGE);
 					}				
@@ -159,19 +159,13 @@ public class ExitUI {
 
 				exitPnl.setVisible(false);
 				paymentChoicePnl.setVisible(true);
-				homeBtn.setVisible(false);
-				backBtn.setVisible(true);
 			}
 			if (e.getActionCommand().equals("Submit Cash")) {
 				String cash = cashTxt.getText();
-				if (cash.matches("[1-9]{1}[0-9]{0,3}")) {
+				try{
 					int cashAmount = Integer.parseInt(cash);
-					if (cashAmount > amountDue) {
+					if (cashAmount >= amountDue) {
 						JOptionPane.showMessageDialog(mainUI, "Change: $" + df.format((cashAmount - amountDue)), "Payment : Change", JOptionPane.INFORMATION_MESSAGE);
-						amountDue = 0;
-					}
-					if (cashAmount == amountDue) {
-						JOptionPane.showMessageDialog(mainUI, "Payment complete. Thank you.", "Payment : Complete", JOptionPane.INFORMATION_MESSAGE);
 						amountDue = 0;
 					}
 					if (cashAmount < amountDue) {
@@ -182,16 +176,16 @@ public class ExitUI {
 						controller.getGarage().exitGarage(ticketNumber);
 						String receipt= controller.makeCashPayment(ticketNumber, totalCharge);
 						JOptionPane.showMessageDialog(mainUI, receipt, "Receipt", JOptionPane.INFORMATION_MESSAGE);
-						JOptionPane.showMessageDialog(mainUI, "Thank you. Exit Gate Open.", "Exit Gate Open.", JOptionPane.INFORMATION_MESSAGE);
-						JOptionPane.showMessageDialog(mainUI, "Exit Gate Closed.", "Exit Gate Closed.", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(mainUI, "Exit Gate Open.", "Exit Gate Open", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(mainUI, "Exit Gate Closed.", "Exit Gate Closed", JOptionPane.INFORMATION_MESSAGE);
 						repaintUI();
 						mainUI.mainContentPnl.setVisible(true);
 						mainContentPnl.setVisible(false);
 						mainUI.updateStatus();
 					}
 					cashTxt.setText("");
-				} else {
-					JOptionPane.showMessageDialog(mainUI, "Invalid amount.", "Error", JOptionPane.ERROR_MESSAGE);
+				}catch (NumberFormatException e1){
+					JOptionPane.showMessageDialog(mainUI, "Invalid cash format.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			if (e.getActionCommand().equals("Submit ePay")) {
@@ -203,8 +197,8 @@ public class ExitUI {
 					controller.getGarage().exitGarage(ticketNumber);
 					String receipt= controller.makeElectronicPayment(amountDue, ccNum, expDate, ticketNumber);
 					JOptionPane.showMessageDialog(mainUI, receipt, "Receipt", JOptionPane.INFORMATION_MESSAGE);
-					JOptionPane.showMessageDialog(mainUI, "Thank you. Exit Gate Open.", "Exit Gate Open.", JOptionPane.INFORMATION_MESSAGE);
-					JOptionPane.showMessageDialog(mainUI, "Exit Gate Closed.", "Exit Gate Closed.", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(mainUI, "Exit Gate Open.", "Exit Gate Open", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(mainUI, "Exit Gate Closed.", "Exit Gate Closed", JOptionPane.INFORMATION_MESSAGE);
 					repaintUI();
 					mainUI.mainContentPnl.setVisible(true);
 					mainContentPnl.setVisible(false);

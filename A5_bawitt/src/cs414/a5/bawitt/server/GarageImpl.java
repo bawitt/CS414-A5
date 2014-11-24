@@ -1,7 +1,5 @@
 package cs414.a5.bawitt.server;
 
-//import org.joda.time.DateTime;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
 import cs414.a5.bawitt.common.Employee;
@@ -38,50 +36,43 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 		entryGate = new GateImpl(GateTypeImpl.entrance);
 		exitGate = new GateImpl(GateTypeImpl.exit);
 		garageRate = new RateImpl(4, 50);  
-		garageSpaces = new SpacesImpl(20,0);  
+		garageSpaces = new SpacesImpl(5,0);  
 		ticketCount = 0;
 	}
 	
+	@Override
 	public int getTotalSpaces() throws java.rmi.RemoteException
 	{
 		return garageSpaces.getNumSpaces();
 	}
+	
+	@Override
 	public int getUsedSpaces() throws java.rmi.RemoteException
 	{
 		return garageSpaces.getUsedSpaces();
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#updateSignStatus()
-	 */
+
 	@Override
 	public void updateSignStatus() throws java.rmi.RemoteException{
 		capacitySign.refreshSign(garageSpaces);
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#updateGarageSpaces(int)
-	 */
+
 	@Override
 	public void updateGarageSpaces(int numSpaces) throws java.rmi.RemoteException{
 		garageSpaces.setNumSpaces(numSpaces); 
 		updateSignStatus();
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#updateGarageStandardRate(double)
-	 */
+
 	@Override
 	public void updateGarageStandardRate(double r) throws java.rmi.RemoteException{
 		garageRate.setStandardRate(r);
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#updateGarageFlatRate(double)
-	 */
+
 	@Override
 	public void updateGarageFlatRate(double r) throws java.rmi.RemoteException{
 		garageRate.setFlatRate(r);
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#issueTicket()
-	 */
+
 	@Override
 	public int issueTicket() throws java.rmi.RemoteException{
 			ticketCount = ticketCount +1;
@@ -93,9 +84,7 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 			updateSignStatus();
 			return ticket.getID();
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#getTicketFromList(int)
-	 */
+
 	@Override
 	public TicketImpl getTicketFromList(int id) throws java.rmi.RemoteException{
 		for(TicketImpl ticket : activeTickets){
@@ -106,9 +95,7 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 		TicketImpl ticket= new TicketImpl(garageRate);
 		return ticket;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#getEmployeeFromList(java.lang.String)
-	 */
+
 	@Override
 	public Employee getEmployeeFromList(String un) throws java.rmi.RemoteException{
 		for(Employee emp : users){
@@ -119,9 +106,7 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 		Employee emp = new EmployeeImpl();
 		return emp;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#authorizeUser(java.lang.String, java.lang.String)
-	 */
+
 	@Override
 	public boolean authorizeUser(String un, String pn) throws java.rmi.RemoteException{
 		boolean success = false;
@@ -129,9 +114,7 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 		success = emp.isApproved(pn);
 		return success;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#exitGarage(a4.application.Ticket)
-	 */
+
 	@Override
 	public void exitGarage(int tid) throws java.rmi.RemoteException{
 		if(tid<=0) {exitGarage(); return;}
@@ -143,9 +126,7 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 		paidTickets.add(ticket);
 		updateSignStatus();
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#exitGarage()
-	 */
+
 	@Override
 	public void exitGarage() throws java.rmi.RemoteException{
 		garageSpaces.decExit();	
@@ -153,9 +134,7 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 		exitGate.closeGate();
 		updateSignStatus();
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#createEmployee(java.lang.String, java.lang.String)
-	 */
+
 	@Override
 	public boolean createEmployee(String un, String pn) throws java.rmi.RemoteException{
 		for(Employee e : users)
@@ -166,44 +145,32 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 		users.add(emp);
 		return true;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#getGarageRate()
-	 */
+
 	@Override
 	public Rate getGarageRate() throws java.rmi.RemoteException{
 		return garageRate;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#getSignStatus()
-	 */
+
 	@Override
 	public SignStatusImpl getSignStatus() throws java.rmi.RemoteException{
 		return capacitySign.getSignStatus();
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#getGarageFlatRate()
-	 */
+
 	@Override
 	public double getGarageFlatRate() throws java.rmi.RemoteException{
 		return garageRate.getFlatRate();
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#getEmployeeList()
-	 */
+
 	@Override
 	public Set<EmployeeImpl> getEmployeeList() throws java.rmi.RemoteException{
 		return users;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#getActiveTicketList()
-	 */
+
 	@Override
 	public Set<TicketImpl> getActiveTicketList() throws java.rmi.RemoteException{
 		return activeTickets;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#showUnpaidTickets()
-	 */
+
 	@Override
 	public String showUnpaidTickets() throws java.rmi.RemoteException{
 		String utString = "Unpaid List:";
@@ -212,37 +179,27 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 		}
 		return utString;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#getPaidTicketList()
-	 */
+	
 	@Override
 	public Set<TicketImpl> getPaidTicketList() throws java.rmi.RemoteException{
 		return paidTickets;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#getGarageUsedSpaces()
-	 */
+
 	@Override
 	public int getGarageUsedSpaces() throws java.rmi.RemoteException{
 		return garageSpaces.getUsedSpaces();
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#addReceiptToCollection(a4.application.Receipt)
-	 */
+
 	@Override
 	public void addReceiptToCollection(ReceiptImpl r) throws java.rmi.RemoteException{
 		receipts.add(r);
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#addUnpaidTicketToList(a4.application.UnpaidTickets)
-	 */
+
 	@Override
 	public void addUnpaidTicketToList(UnpaidTicketImpl ut) throws java.rmi.RemoteException{
 		unpaidTickets.add(ut);
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.GarageImpl#showsSpaceStatus()
-	 */
+
 	@Override
 	public void showsSpaceStatus() throws java.rmi.RemoteException{
 		System.out.println("Status: " + capacitySign.getSignStatus()
@@ -250,6 +207,7 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 				+ "\nUsed Spaces: " + garageSpaces.getUsedSpaces() + "\n");
 	}	
 	
+	@Override
 	public double getAmountOwedToGarage() throws java.rmi.RemoteException{
 		double amount = 0;
 		for(UnpaidTicket ut : unpaidTickets){
@@ -261,6 +219,7 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 		return amount;
 	}
 	
+	@Override
 	public double getAverageLengthOfStay() throws java.rmi.RemoteException{
 		int length = 0;
 		int count = 0;
@@ -274,6 +233,7 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 		else return length/count;
 	}
 	
+	@Override
 	public double getTotalRevenue() throws java.rmi.RemoteException{
 		double amount = 0;
 		for(Receipt r : receipts){

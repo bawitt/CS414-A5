@@ -4,7 +4,6 @@ import org.joda.time.DateTime;
 
 public interface Ticket extends java.rmi.Remote{
 
-	//hours from entry until current time
 	int getDurationHours() throws java.rmi.RemoteException;
 
 	int getID() throws java.rmi.RemoteException;;

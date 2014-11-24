@@ -25,8 +25,7 @@ public class EnterUI {
 	}
 
 	public void paintUI() {
-		try{
-			
+		try{	
 		parkingRateLbl = new JLabel("Hourly Rate: $" + controller.getGarage().getGarageRate().getStandardRate());
 		JButton getTicketBtn = new JButton("Get Ticket");
 		JButton mainMenuBtn = new JButton("Main Menu");
@@ -51,9 +50,10 @@ public class EnterUI {
 			try{
 			if (e.getActionCommand().equals("Get Ticket")) {
 				int t = controller.getGarage().issueTicket();
-				JOptionPane.showMessageDialog(mainUI, "Ticket Number: " + t + "\nTime: " + controller.getTicketEnterDate(t) + "\nEntry Gate Open.",
-							"Entry Gate Open.", JOptionPane.INFORMATION_MESSAGE);
-				JOptionPane.showMessageDialog(mainUI, "Entry Gate Closed.", "Entry Gate Closed.", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(mainUI, "Ticket Number: " + t + "\nTime: " + controller.getTicketEnterDate(t),
+							"Take Ticket", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(mainUI, "Entry Gate Open.", "Entry Gate Open", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(mainUI, "Entry Gate Closed.", "Entry Gate Closed", JOptionPane.INFORMATION_MESSAGE);
 				mainUI.mainContentPnl.setVisible(true);
 				mainContentPnl.setVisible(false);
 				mainUI.updateStatus();

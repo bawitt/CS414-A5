@@ -4,6 +4,8 @@ import cs414.a5.bawitt.common.Employee;
 
 
 public class EmployeeImpl extends java.rmi.server.UnicastRemoteObject implements Employee {
+
+	private static final long serialVersionUID = 1L;
 	String username;
 	String passNum;
 	boolean isAdmin;
@@ -18,9 +20,7 @@ public class EmployeeImpl extends java.rmi.server.UnicastRemoteObject implements
 	public EmployeeImpl() throws java.rmi.RemoteException {
 		username = null;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.EmployeeImpl#isApproved(java.lang.String)
-	 */
+
 	@Override
 	public boolean isApproved(String pn) throws java.rmi.RemoteException{
 		if(isActive && (passNum.equals(pn))){
@@ -28,23 +28,17 @@ public class EmployeeImpl extends java.rmi.server.UnicastRemoteObject implements
 		}
 		else return false;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.EmployeeImpl#deactivateUser()
-	 */
+
 	@Override
 	public void deactivateUser() throws java.rmi.RemoteException{
 		isActive = false;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.EmployeeImpl#getUsername()
-	 */
+
 	@Override
 	public String getUsername() throws java.rmi.RemoteException{
 		return username;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.EmployeeImpl#getIsActive()
-	 */
+
 	@Override
 	public boolean getIsActive() throws java.rmi.RemoteException{
 		return isActive;

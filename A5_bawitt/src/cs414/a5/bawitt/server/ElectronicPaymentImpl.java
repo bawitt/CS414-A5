@@ -3,7 +3,6 @@ package cs414.a5.bawitt.server;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import cs414.a5.bawitt.common.ElectronicPayment;
 
@@ -12,18 +11,13 @@ public class ElectronicPaymentImpl extends PaymentImpl implements ElectronicPaym
 	private static final long serialVersionUID = 1L;
 	private String accountNum;
 	private String expDate;
-	//private double amountDue;
 	
 	public ElectronicPaymentImpl(double ad, String act, String ed, int t) throws java.rmi.RemoteException{
 		super(ad, PaymentTypeImpl.electronic, t);
-		accountNum = act;
-		//amountDue = ad;	
+		accountNum = act;	
 		expDate = ed;
 	}
 	
-	/* (non-Javadoc)
-	 * @see a4.application.ElectronicPaymentImpl#isAccountValid()
-	 */
 	@Override
 	public boolean isAccountValid() throws java.rmi.RemoteException{
 		if(isDateValid() && isActNumValid() && isExpDateInFuture()){
@@ -32,39 +26,30 @@ public class ElectronicPaymentImpl extends PaymentImpl implements ElectronicPaym
 		else return false;
 	}
 	
-	/* (non-Javadoc)
-	 * @see a4.application.ElectronicPaymentImpl#isDateValid()
-	 */
 	@Override
 	public boolean isDateValid() throws java.rmi.RemoteException{  //check date format
 		String ed = expDate;
 		SimpleDateFormat dtfmt = new SimpleDateFormat("MM/yyyy");
-		Date date = null;
 		try{
-			date = dtfmt.parse(ed); 
+			dtfmt.parse(ed); 
 		}
 		catch (ParseException e)
         {
-            //System.out.println("Date format is invalid");
             return false;
         }
 		return true;
 	}
-	/* (non-Javadoc)
-	 * @see a4.application.ElectronicPaymentImpl#isActNumValid()
-	 */
+
 	@Override
 	public boolean isActNumValid() throws java.rmi.RemoteException{
 		String actNum= accountNum;
 	    for(char c : actNum.toCharArray()) //check that actNum is all digits
 	    {
 	        if(!Character.isDigit(c)){
-	        	//System.out.println("\nAccount number format is invalid.\n");
 	        	return false;
 	        }
 	    }
 		if(actNum.length()!=16){  //check that actNum is correct length
-			//System.out.println("Account number length is invalid.");
 			return false;
 		}
 		return true;
@@ -72,12 +57,17 @@ public class ElectronicPaymentImpl extends PaymentImpl implements ElectronicPaym
 	
 	@Override
 	public boolean isExpDateInFuture(){
-		int userMonth = Integer.parseInt(expDate.substring(0, 2));
-		int userYear = Integer.parseInt(expDate.substring(3, 7));
-		int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
-		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-		if(userYear<currentYear) return false;
-		if(userYear==currentYear && userMonth<=currentMonth) return false;
-		return true;
+		try{
+			int userMonth = Integer.parseInt(expDate.substring(0, 2));
+			int userYear = Integer.parseInt(expDate.substring(3, 7));
+			int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+			int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+			if(userMonth>12) return false;
+			if(userYear<currentYear) return false;
+			if(userYear==currentYear && userMonth<=currentMonth) return false;
+			return true;
+		}catch (NumberFormatException e1){
+			return false;
+		}
 	}
 }

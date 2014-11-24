@@ -28,6 +28,7 @@ public class ReceiptImpl extends java.rmi.server.UnicastRemoteObject implements 
 				"\nTotal: $" + df.format(amount) + "\nPayment Type: " + paymentType;
 	}
 	
+	@Override
 	public double getAmount() throws java.rmi.RemoteException{
 		return amount;
 	}
