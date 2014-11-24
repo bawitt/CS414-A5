@@ -27,4 +27,8 @@ public class ReceiptImpl extends java.rmi.server.UnicastRemoteObject implements 
 		return "Thank you for your business.\nTicket: "+ticketID + "\nDate: " +paymentDate+
 				"\nTotal: $" + df.format(amount) + "\nPayment Type: " + paymentType;
 	}
+	
+	public double getAmount() throws java.rmi.RemoteException{
+		return amount;
+	}
 }

@@ -75,6 +75,8 @@ public class LostTicketUI {
 					if (controller.isTicketValid(ticketID) || ticketID==0) {
 						controller.exitWithoutPayment(name, address, phone, ticketID);
 						repaintUI();
+						JOptionPane.showMessageDialog(mainUI, "Thank you. Exit Gate Open.", "Exit Gate Open.", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(mainUI, "Exit Gate Closed.", "Exit Gate Closed.", JOptionPane.INFORMATION_MESSAGE);
 						mainUI.mainContentPnl.setVisible(true);
 						mainContentPnl.setVisible(false);
 						mainUI.updateStatus();

@@ -2,6 +2,7 @@ package cs414.a5.bawitt.server;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import cs414.a5.bawitt.common.ElectronicPayment;
@@ -25,7 +26,7 @@ public class ElectronicPaymentImpl extends PaymentImpl implements ElectronicPaym
 	 */
 	@Override
 	public boolean isAccountValid() throws java.rmi.RemoteException{
-		if(isDateValid()&&isActNumValid()){
+		if(isDateValid() && isActNumValid() && isExpDateInFuture()){
 			return true;
 		}
 		else return false;
@@ -44,7 +45,7 @@ public class ElectronicPaymentImpl extends PaymentImpl implements ElectronicPaym
 		}
 		catch (ParseException e)
         {
-            System.out.println("Date format is invalid");
+            //System.out.println("Date format is invalid");
             return false;
         }
 		return true;
@@ -58,14 +59,25 @@ public class ElectronicPaymentImpl extends PaymentImpl implements ElectronicPaym
 	    for(char c : actNum.toCharArray()) //check that actNum is all digits
 	    {
 	        if(!Character.isDigit(c)){
-	        	System.out.println("\nAccount number format is invalid.\n");
+	        	//System.out.println("\nAccount number format is invalid.\n");
 	        	return false;
 	        }
 	    }
 		if(actNum.length()!=16){  //check that actNum is correct length
-			System.out.println("Account number length is invalid.");
+			//System.out.println("Account number length is invalid.");
 			return false;
 		}
+		return true;
+	}
+	
+	@Override
+	public boolean isExpDateInFuture(){
+		int userMonth = Integer.parseInt(expDate.substring(0, 2));
+		int userYear = Integer.parseInt(expDate.substring(3, 7));
+		int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+		if(userYear<currentYear) return false;
+		if(userYear==currentYear && userMonth<=currentMonth) return false;
 		return true;
 	}
 }

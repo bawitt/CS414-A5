@@ -15,6 +15,7 @@ public class TicketImpl extends java.rmi.server.UnicastRemoteObject implements T
 	private double ticketFlatRate;
 	private DateTime paymentDate;
 	private int duration;
+	private int totalStayLength;
 	
 	public TicketImpl(int i, Rate r) throws java.rmi.RemoteException{
 		id = i;
@@ -24,6 +25,7 @@ public class TicketImpl extends java.rmi.server.UnicastRemoteObject implements T
 	public TicketImpl(Rate r) throws java.rmi.RemoteException{
 		id = -1;
 		ticketFlatRate = r.getFlatRate();
+		totalStayLength = 0;
 	}
 	//hours from entry until current time
 	/* (non-Javadoc)
@@ -33,7 +35,8 @@ public class TicketImpl extends java.rmi.server.UnicastRemoteObject implements T
 	public int getDurationHours() throws java.rmi.RemoteException{  
 		paymentDate = new DateTime();
 		Hours hoursInGarage = Hours.hoursBetween(enterDate, paymentDate);
-		return (hoursInGarage.getHours() + 1);
+		totalStayLength = hoursInGarage.getHours() + 1;
+		return totalStayLength;
 	}
 	/* (non-Javadoc)
 	 * @see a4.application.TicketImpl#getID()
@@ -52,8 +55,8 @@ public class TicketImpl extends java.rmi.server.UnicastRemoteObject implements T
 	/* (non-Javadoc)
 	 * @see a4.application.TicketImpl#setPaymentDate(org.joda.time.DateTime)
 	 */
-	@Override
-	public void setPaymentDate(DateTime dt) throws java.rmi.RemoteException{ //for testing purposes
+	//@Override
+	public void setPaymentDate(DateTime dt) throws java.rmi.RemoteException{ //for junit testing purposes
 		paymentDate = dt;
 	}
 	/* (non-Javadoc)
@@ -71,5 +74,10 @@ public class TicketImpl extends java.rmi.server.UnicastRemoteObject implements T
 		if(id==-1) return ticketFlatRate;
 		duration = getDurationHours();
 		return (duration * getTicketStandardRate());
+	}
+	
+	@Override
+	public int getTotalStayLength() throws java.rmi.RemoteException{
+		return totalStayLength;
 	}
 }

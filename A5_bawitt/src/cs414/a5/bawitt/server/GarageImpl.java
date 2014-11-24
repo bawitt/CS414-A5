@@ -8,6 +8,7 @@ import cs414.a5.bawitt.common.Employee;
 import cs414.a5.bawitt.common.Garage;
 import cs414.a5.bawitt.common.Gate;
 import cs414.a5.bawitt.common.Rate;
+import cs414.a5.bawitt.common.Receipt;
 import cs414.a5.bawitt.common.Sign;
 import cs414.a5.bawitt.common.Spaces;
 import cs414.a5.bawitt.common.Ticket;
@@ -133,7 +134,7 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 	 */
 	@Override
 	public void exitGarage(int tid) throws java.rmi.RemoteException{
-		if(tid ==0) {exitGarage(); return;}
+		if(tid<=0) {exitGarage(); return;}
 		TicketImpl ticket = getTicketFromList(tid);
 		garageSpaces.decExit();	
 		exitGate.openGate();
@@ -208,7 +209,6 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 		String utString = "Unpaid List:";
 		for(UnpaidTicket ut : unpaidTickets){
 			utString += ut.unpaidToString();
-			//System.out.println(ut.unpaidToString());
 		}
 		return utString;
 	}
@@ -249,4 +249,36 @@ public class GarageImpl extends java.rmi.server.UnicastRemoteObject  implements 
 				+ "\nTotal Spaces: " + garageSpaces.getNumSpaces()
 				+ "\nUsed Spaces: " + garageSpaces.getUsedSpaces() + "\n");
 	}	
+	
+	public double getAmountOwedToGarage() throws java.rmi.RemoteException{
+		double amount = 0;
+		for(UnpaidTicket ut : unpaidTickets){
+			amount += ut.getUnpaidTicket().getAmountDue();
+		}
+		for(TicketImpl ticket : activeTickets){
+			amount+= ticket.getAmountDue();
+		}
+		return amount;
+	}
+	
+	public double getAverageLengthOfStay() throws java.rmi.RemoteException{
+		int length = 0;
+		int count = 0;
+		for(Ticket t : paidTickets){
+			if(t.getTotalStayLength()>0){
+				length += t.getTotalStayLength();
+				count++;
+			}
+		}
+		if(count==0) return 0;
+		else return length/count;
+	}
+	
+	public double getTotalRevenue() throws java.rmi.RemoteException{
+		double amount = 0;
+		for(Receipt r : receipts){
+			amount += r.getAmount();
+		}
+		return amount;
+	}
 }

@@ -16,4 +16,6 @@ public interface Ticket extends java.rmi.Remote{
 	double getTicketStandardRate() throws java.rmi.RemoteException;
 
 	double getAmountDue() throws java.rmi.RemoteException;
+	
+	int getTotalStayLength() throws java.rmi.RemoteException;
 }

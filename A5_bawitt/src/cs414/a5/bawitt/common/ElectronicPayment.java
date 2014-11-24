@@ -7,5 +7,7 @@ public interface ElectronicPayment extends java.rmi.Remote{
 	boolean isDateValid() throws java.rmi.RemoteException;;
 
 	boolean isActNumValid() throws java.rmi.RemoteException;;
+	
+	boolean isExpDateInFuture() throws java.rmi.RemoteException;
 
 }

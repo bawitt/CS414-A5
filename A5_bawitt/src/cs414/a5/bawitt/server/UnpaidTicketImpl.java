@@ -38,4 +38,9 @@ public class UnpaidTicketImpl extends java.rmi.server.UnicastRemoteObject implem
 		}
 		return unpaidTicketString;
 	}
+	
+	@Override
+	public Ticket getUnpaidTicket(){
+		return unpaidTicket;
+	}
 }
